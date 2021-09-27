@@ -37,15 +37,19 @@
 		<div class="t_div">
 			<table>
 				<tr>
+					<th style="width:15%"><spring:message code="common.no" /></th>
+					<th style="width:70%"><spring:message code="common.title" /></th>
 					<th style="width:15%"><spring:message code="common.writer" /></th>
-					<th style="width:15%"><spring:message code="common.title" /></th>
-					<th style="width:70%"><spring:message code="common.content" /></th>
+					<th style="width:15%"><spring:message code="common.created" /></th>
+					<th style="width:15%"><spring:message code="common.hits" /></th>
 				</tr>
 				<c:forEach var="dto" items="${dto}">
 					<tr>
-						<td>${dto.writer }</td>
+						<td>${dto.id }</td>
 						<td><a href="board/view?num=${dto.id }">${dto.title }</a></td>
-						<td>${dto.content }</td>
+						<td>${dto.writer }</td>
+						<td style="font-size: 0.8em" >${dto.regDate }</td>
+						<td>${dto.hits }</td>
 					</tr>
 				</c:forEach>
 			</table>

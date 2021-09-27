@@ -20,14 +20,9 @@ public class CustomUserDetailsService implements UserDetailsService {
 	@Override
 	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
-		log.info("Load User By UserName: " + username);
 
 		try {
 			Member member = memberDao.readByUserId(username);
-
-			log.info("queried by member dao: " + member);
-
-			log.info("Member null true: " + member);
 			
 			return member == null ? null : new CustomUser(member);
 		} catch (Exception e) {

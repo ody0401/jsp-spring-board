@@ -13,6 +13,10 @@
 		UPDATE board SET writer = #{writer}, title = #{title}, content= #{content} WHERE id = #{id}
 	</update>
 	
+	<update id="increaseHits">
+		UPDATE board SET hits = hits + 1 WHERE id = #{id}
+	</update>
+	
 	<select id="allPosts">
 		SELECT * FROM board ORDER BY id DESC;
 	</select>

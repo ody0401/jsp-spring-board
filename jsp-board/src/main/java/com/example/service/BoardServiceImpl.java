@@ -101,6 +101,8 @@ public class BoardServiceImpl implements IBoardService {
 	@Transactional
 	@Override
 	public Post getPostOne(int id) throws Exception {
+		
+		dao.increaseHits(id);
 
 		Post dto = dao.getPostOne(id);
 		

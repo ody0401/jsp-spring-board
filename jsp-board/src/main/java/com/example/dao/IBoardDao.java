@@ -21,6 +21,6 @@ public interface IBoardDao {
 	
 	public void delete(int id) throws Exception;
 	
-	
+	public void increaseHits(int id) throws Exception;
 
 }

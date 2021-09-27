@@ -23,13 +23,8 @@ public class MemberServiceImpl implements IMemberService {
 	private PasswordEncoder passwordEncoder;
 
 	@Override
-	public void signup(Member member) throws Exception {
-		
-		log.info("signup start member: " + member);
-		
+	public void signup(Member member) throws Exception {	
 		Member getMember = dao.getUser(member.getUserId());
-		
-		log.info("getUser: " + getMember);
 		
 		if (getMember == null) {
 			
@@ -47,9 +42,6 @@ public class MemberServiceImpl implements IMemberService {
 		} else {
 			throw new MemberAlreadyExistException("이미 가입한 아이디입니다");
 		}
-		
-		
-		log.info("signup end member: " + member);
 		
 		
 	}

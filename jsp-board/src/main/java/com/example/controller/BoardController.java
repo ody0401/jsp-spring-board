@@ -10,16 +10,22 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.example.dto.Board;
 import com.example.dto.CustomUser;
+import com.example.dto.Reply;
 import com.example.service.IBoardService;
+import com.example.service.IReplyService;
 
 import lombok.RequiredArgsConstructor;
+import lombok.extern.log4j.Log4j2;
 
+@Log4j2
 @RequiredArgsConstructor
 @RequestMapping("/board")
 @Controller
 public class BoardController {
 
 	private final IBoardService iBoardService;
+	
+	private final IReplyService iReplyService;
 
 	@GetMapping(value = { "", "/home" })
 	public String home(@RequestParam(value = "page", defaultValue = "1") int pageNo, Model model) throws Exception {
@@ -76,9 +82,12 @@ public class BoardController {
 	public String view(@RequestParam("num") int id, Model model) throws Exception {
 
 		model.addAttribute("dto", iBoardService.getPostOne(id));
+		
+		model.addAttribute("reply", iReplyService.getReply(id));
 
 		return "view";
 	}
+	
 
 	@GetMapping("/delete")
 	public String delete(@RequestParam(value = "num") int id, Authentication authentication) throws Exception {
@@ -95,6 +104,23 @@ public class BoardController {
 		}
 		
 		return "redirect:/board";
+	}
+	
+	
+	@PostMapping("/reply")
+	public String reply(Reply reply, Authentication authentication) throws Exception {
+		
+		CustomUser customUser = (CustomUser) authentication.getPrincipal();
+		int userNo = customUser.getMember().getUserNo();
+
+		reply.setUserNo(userNo);
+		
+		
+		log.info("reply: " + reply);
+		
+		iReplyService.write(reply);
+
+		return "redirect:/board/view?num="+reply.getBoardNo();
 	}
 
 }
