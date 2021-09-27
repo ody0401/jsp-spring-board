@@ -42,7 +42,7 @@ public class BoardController {
 			Authentication authentication) throws Exception {
 
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
-		String userId = customUser.getMember().getUserId();
+		String userId = customUser.getMember().getUserName();
 		
 		if (id > 0) {
 			String writer = iBoardService.getPostOne(id).getWriter();
@@ -61,11 +61,15 @@ public class BoardController {
 
 		
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
-		String userId = customUser.getMember().getUserId();
+		String userId = customUser.getMember().getUserName();
+		
+		log.info("일단여기 :" + userId);
+		log.info("id :" + id);
 		
 
 		if (id > 0) {
 			String writer = iBoardService.getPostOne(id).getWriter();
+			log.info("작성자 가져오기 :"+writer);
 			if (writer.equals(userId)) {
 				dto.setWriter(writer);
 				iBoardService.update(dto, id);
@@ -94,8 +98,12 @@ public class BoardController {
 		
 		String writer = iBoardService.getPostOne(id).getWriter();
 		
+		log.info("writer :" + writer);
+		
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
-		String userId = customUser.getMember().getUserId();
+		String userId = customUser.getMember().getUserName();
+		
+		log.info("writer :" + userId);
 		
 		if (writer.equals(userId)) {
 			iBoardService.delete(id);

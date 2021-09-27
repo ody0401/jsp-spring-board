@@ -63,14 +63,14 @@
 
 	<div class="replyDiv" >
 		<h3>
-			댓글 <span><button onclick="onClickReplyDisplay()">댓글 보기</button></span>
+			댓글 <span><button onclick="onClickReplyDisplay()">댓글 숨기기</button></span>
 		</h3>
 		<hr />
 		<div class="dvdv" id="dvdvDiv">
 			<c:forEach var="reply" items="${reply}">
 				<c:forEach var="member" items="${reply.memberList}">
 					<fmt:parseDate value="${reply.updDate}"
-						pattern="yyyy-MM-dd'T'HH:mm:ss" var="dateTime" />
+						pattern="yyyy-MM-dd'T'HH:mm" var="dateTime" />
 					<hr />
 					<div class="flex">
 
@@ -83,7 +83,7 @@
 						<div class="flex_1">
 							<div class="inner">
 								<div>
-									<span>${member.userNo }</span>
+									<span>${member.userName }</span>
 								</div>
 								<div>
 									<p>${reply.reply }</p>
@@ -91,7 +91,7 @@
 								<div>
 									<p class="created">
 										<fmt:formatDate value="${dateTime}"
-											pattern="yyyy-MM-dd HH:mm:ss" />
+											pattern="yyyy-MM-dd HH:mm" />
 									</p>
 									<button id="${reply.id}" onclick="onClickDisplay(this)">답글</button>
 								</div>
