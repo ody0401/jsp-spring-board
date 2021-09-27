@@ -1,0 +1,97 @@
+@charset "UTF-8";
+
+.replyDiv {
+	width: 700px;
+	margin: auto;
+}
+
+.dvdv {
+	background-color: #dcdcdc;
+	padding: 8px;
+}
+
+#dvdvDiv {
+	display: block;
+}
+
+span {
+	font-weight: bold;
+}
+
+form {
+	width: 100%;
+}
+
+textarea {
+	width: 580px;
+	height: 100px;
+}
+
+.inner {
+	width: 100%;
+	padding: 5px;
+}
+
+.flex {
+	display: flex;
+	flex-direction: row;
+}
+
+.flex_1 {
+	flex-grow: 1;
+}
+
+.textarea-container {
+	position: relative;
+}
+
+.textarea-container textarea {
+	width: 98%;
+	height: 100px;
+	box-sizing: border-box;
+	border: none;
+	outline: none;
+	resize: none;
+}
+
+.textarea-container button {
+	position: absolute;
+	top: 0px;
+	right: 8px;
+	width: 70px;
+	height: 100px;
+	border: none;
+	height: 100px;
+	border: none;
+	background-color: #a9a9a9;
+}
+
+#test {
+	display: none;
+	padding: 15px;
+}
+
+.created {
+	font-size: 0.3em;
+	margin: 0px;
+}
+
+.reply_div {
+	display: flex;
+	flex-direction: row;
+}
+
+.icon {
+	margin-right: 10px;
+}
+
+.hiddenDiv {
+	display: none;
+	width: 100%;
+}
+
+.notLogin {
+	width: 100%;
+	background-color: white;
+	text-align: center;
+}

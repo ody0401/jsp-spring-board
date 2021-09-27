@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.dao.IReplyDao">
+
+	<resultMap type="Reply" id="replyMap">
+		<id property="id" column="id" />
+		<result property="userNo" column="user_no" />
+		<result property="boardNo" column="board_no" />
+		<result property="reply" column="reply" />
+		<result property="ref" column="ref" />
+		<result property="step" column="step" />
+		<result property="refOrder" column="ref_order" />
+		<result property="parentId" column="parent_id" />
+		<result property="regDate" column="reg_date" />
+		<result property="updDate" column="upd_date" />
+		<collection property="memberList" resultMap="memberMap"></collection>
+		<!-- <collection property="boardList" resultMap="boardMap"></collection> -->
+	</resultMap>
+	
+	<resultMap type="Member" id="memberMap">
+		<id property="userNo" column="user_no" />
+		<result property="userNo" column="user_no" />
+		<result property="userId" column="user_id" />
+		<result property="userName" column="user_name" />
+		<result property="userPw" column="user_pw" />
+		<result property="enabled" column="enabled" />
+		<result property="regDate" column="reg_date" />
+		<result property="updDate" column="upd_date" />
+		<collection property="authList" resultMap="authMap"></collection>
+	</resultMap>
+
+	<resultMap type="MemberAuth" id="authMap">
+		<result property="userNo" column="user_no" />
+		<result property="auth" column="auth" />
+	</resultMap>
+	
+	<resultMap type="Board" id="boardMap">
+		<id property="id" column="id" />
+		<result property="id" column="id" />
+		<result property="title" column="title" />
+		<result property="content" column="content" />
+		<result property="writer" column="writer" />
+		<result property="regDate" column="reg_date" />
+		<result property="updDate" column="upd_date" />
+	</resultMap>
+	
+
+	<insert id="write">
+		INSERT INTO reply (board_no, user_no, reply,ref,
+		step, ref_order, parent_id) VALUES (#{boardNo}, #{userNo}, #{reply}, #{ref},
+		#{step}, #{refOrder}, #{parentId})
+	</insert>
+	
+	<insert id="nestedReply">
+		INSERT INTO reply (board_no, user_no, reply,ref,
+		step, ref_order, parent_id) VALUES (#{boardNo}, #{userNo}, #{reply}, #{ref},
+		#{step}, #{refOrder}, #{parentId})
+	</insert>
+
+	<select id="getReply" resultMap="replyMap">
+		SELECT * FROM reply r LEFT JOIN member m ON r.user_no = m.user_no WHERE r.board_no = #{param1} ORDER BY r.ref DESC, r.ref_order ASC
+	</select>
+	
+	<select id="getLastRef" resultType="map">
+		SELECT MAX(ref) FROM reply
+	</select>
+	
+	<select id="getLastStepOrder" resultType="int">
+		SELECT MAX(parent_id) FROM reply
+	</select>
+	
+	<select id="getLastOrder" resultType="int">
+		SELECT MAX(ref_order) FROM reply WHERE ref = #{param1}
+	</select>
+	
+	<select id="eqStep" resultType="map">
+		SELECT MAX(ref_order) FROM reply WHERE step = #{param1} AND parent_id = #{param2}
+	</select>
+	
+	<select id="biggerOrder" resultType="map">
+		<![CDATA[ SELECT ref_order FROM reply WHERE ref = #{param1} AND ref_order > #{param2} ]]>
+	</select>
+	
+	<select id="isStepBigger" resultType="map">
+		<![CDATA[ SELECT step FROM reply WHERE step > #{param1} ]]>
+	</select>
+	
+	<update id="plusOrder">
+		<![CDATA[ UPDATE reply SET ref_order = ref_order + 1 WHERE ref_order > #{param1} ]]>
+	</update>
+
+</mapper>
