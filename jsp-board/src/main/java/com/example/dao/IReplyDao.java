@@ -26,4 +26,6 @@ public interface IReplyDao {
 	public void nestedReply(Reply reply) throws Exception;
 
 	public void plusOrder(int refOrder) throws Exception;
+	
+	public void deleteReply(int boardId) throws Exception;
 }

@@ -16,7 +16,7 @@ public interface IBoardService {
 	
 	public List<Post> postList(int pageNo) throws Exception;
 	
-	public Post getPostOne(int id) throws Exception;
+	public Post getPostOne(int id,int hits) throws Exception;
 	
 	public void update(Board dto, int id) throws Exception;
 	

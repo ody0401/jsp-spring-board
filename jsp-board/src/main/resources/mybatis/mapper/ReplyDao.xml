@@ -80,6 +80,10 @@
 		SELECT MAX(ref_order) FROM reply WHERE step = #{param1} AND parent_id = #{param2}
 	</select>
 	
+	<delete id="deleteReply">
+		DELETE FROM reply WHERE board_no = #{param1}
+	</delete>
+	
 	<select id="biggerOrder" resultType="map">
 		<![CDATA[ SELECT ref_order FROM reply WHERE ref = #{param1} AND ref_order > #{param2} ]]>
 	</select>

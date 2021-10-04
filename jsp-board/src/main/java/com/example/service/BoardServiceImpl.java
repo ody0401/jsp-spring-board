@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.example.dao.IBoardDao;
+import com.example.dao.IReplyDao;
 import com.example.dto.Board;
 import com.example.dto.PaginationDto;
 import com.example.dto.Post;
@@ -19,6 +20,8 @@ import lombok.RequiredArgsConstructor;
 public class BoardServiceImpl implements IBoardService {
 	
 	private final IBoardDao dao;
+	
+	private final IReplyDao iReplyDao;
 	
 	private int pageSize = 10;
 	
@@ -100,17 +103,23 @@ public class BoardServiceImpl implements IBoardService {
 
 	@Transactional
 	@Override
-	public Post getPostOne(int id) throws Exception {
+	public Post getPostOne(int id, int hits) throws Exception {
 		
-		dao.increaseHits(id);
-
+		if (hits > 0) {
+			dao.increaseHits(id);
+		}
+		
 		Post dto = dao.getPostOne(id);
 		
 		return dto;
 	}
 
+
+	@Transactional
 	@Override
 	public void delete(int id) throws Exception {
+		
+		iReplyDao.deleteReply(id);
 		dao.delete(id);
 	}
 	

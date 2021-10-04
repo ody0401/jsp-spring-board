@@ -84,7 +84,7 @@ public class BoardServiceTests {
 
 		int id = 1;
 
-		Post dto = iBoardService.getPostOne(id);
+		Post dto = iBoardService.getPostOne(id, 0);
 
 		log.info("dto:" + dto);
 	}

@@ -45,12 +45,12 @@ public class BoardController {
 		String userId = customUser.getMember().getUserName();
 		
 		if (id > 0) {
-			String writer = iBoardService.getPostOne(id).getWriter();
+			String writer = iBoardService.getPostOne(id, 0).getWriter();
 			if (!writer.equals(userId)) {
 				return "redirect:/error/accessError";
 			}
 		}
-		model.addAttribute("dto", iBoardService.getPostOne(id));
+		model.addAttribute("dto", iBoardService.getPostOne(id, 0));
 
 		return "write";
 	}
@@ -62,13 +62,10 @@ public class BoardController {
 		
 		CustomUser customUser = (CustomUser) authentication.getPrincipal();
 		String userId = customUser.getMember().getUserName();
-		
-		log.info("일단여기 :" + userId);
-		log.info("id :" + id);
-		
+
 
 		if (id > 0) {
-			String writer = iBoardService.getPostOne(id).getWriter();
+			String writer = iBoardService.getPostOne(id, 0).getWriter();
 			log.info("작성자 가져오기 :"+writer);
 			if (writer.equals(userId)) {
 				dto.setWriter(writer);
@@ -83,9 +80,12 @@ public class BoardController {
 	}
 
 	@GetMapping("/view")
-	public String view(@RequestParam("num") int id, Model model) throws Exception {
+	public String view(@RequestParam("num") int id,
+			@RequestParam(value = "hits", required = true, defaultValue = "1") int hits, Model model) throws Exception {
+		
+		log.info("hits: " + hits);
 
-		model.addAttribute("dto", iBoardService.getPostOne(id));
+		model.addAttribute("dto", iBoardService.getPostOne(id, hits));
 		
 		model.addAttribute("reply", iReplyService.getReply(id));
 
@@ -96,7 +96,7 @@ public class BoardController {
 	@GetMapping("/delete")
 	public String delete(@RequestParam(value = "num") int id, Authentication authentication) throws Exception {
 		
-		String writer = iBoardService.getPostOne(id).getWriter();
+		String writer = iBoardService.getPostOne(id, 0).getWriter();
 		
 		log.info("writer :" + writer);
 		
@@ -128,7 +128,7 @@ public class BoardController {
 		
 		iReplyService.write(reply);
 
-		return "redirect:/board/view?num="+reply.getBoardNo();
+		return "redirect:/board/view?num="+reply.getBoardNo()+"&hits=0";
 	}
 
 }
